@@ -2,7 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
-const encrypt = require("mongoose-encryption");
+const sha512 = require('js-sha512').sha512;         //Hashing, better than MD5
+// const encrypt = require("mongoose-encryption");  //Encryption
 
 const app = express();
 
@@ -14,7 +15,7 @@ app.use(express.urlencoded({
 
 ///////////// MONGOOOSE /////////////
 
-mongoose.connect("mongodb://localhost:27017/secrets-userDB", {
+mongoose.connect(process.env.DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false
@@ -33,7 +34,7 @@ const userSchema = new mongoose.Schema({
 
 
 
-userSchema.plugin(encrypt, {secret: process.env.SECRET, encryptedFields: ['password']});
+// userSchema.plugin(encrypt, {secret: process.env.SECRET, encryptedFields: ['password']});
 
 const User = new mongoose.model("User", userSchema);
 
@@ -60,7 +61,7 @@ app.get("/login", function(req, res) {
 app.post("/register", function(req, res) {
   const newUser = new User({
     email: req.body.username,
-    password: req.body.password
+    password: sha512(req.body.password)
   })
 
   if (newUser) {
@@ -87,7 +88,7 @@ app.post("/register", function(req, res) {
 app.post("/login", function(req, res) {
   const logUser = {
     email: req.body.username,
-    password: req.body.password
+    password: sha512(req.body.password)
   }
 
   if (logUser.email === "" || logUser.password === "") {
