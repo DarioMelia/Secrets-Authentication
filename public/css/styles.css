@@ -1,0 +1,95 @@
+
+body {
+  background-color: #E8ECEF;
+}
+
+.centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.jumbotron{
+  min-height: 100vh;
+}
+
+.container--500{
+max-width: 500px;
+}
+
+.secret-text {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  background-color: #000;
+}
+
+.display-3{
+  font-size: clamp(4rem, 9vw, 5rem);
+  font-weight: 400;
+}
+
+.form-title{
+  font-weight: 700;
+  font-size: 2.5rem;
+  margin-bottom: .4em;
+}
+
+.btn{
+  transition: transform 250ms ease-in,
+  opacity 250ms;
+}
+
+.btn--login{
+  font-size: 1.35rem;
+}
+
+.btn + .btn{
+  margin-left: .3em;
+}
+.btn:hover{
+  transform: scale(1.05);
+  opacity: 0.85;
+}
+
+
+
+
+/* %%%%%%%%%%%%%% ERROR PAGE %%%%%%%%%%%%%%%%%% */
+
+.error{
+width: 100vw;
+height: 100vh;
+text-align: center;
+
+
+}
+
+.error h1{
+  font-size: 5rem;
+  color: #DC143C;
+  font-weight: 700;
+  letter-spacing: .075em;
+  margin-bottom: .5em;
+}
+
+.error h3{
+  opacity:0.88;
+  font-size: 3rem;
+  font-weight: 400;
+}
+
+.error__buttons{
+  display: flex;
+  gap: 2em;
+  justify-content: center;
+  margin-top: 3em;
+}
+
+
+
+.flex-center{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
