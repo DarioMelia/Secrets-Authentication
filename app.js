@@ -30,6 +30,7 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+
 const secret = "@3ekRnEmbn#^fP3rBuBeY35!tDjF@X";
 userSchema.plugin(encrypt, {secret: secret, encryptedFields: ['password']});
 
