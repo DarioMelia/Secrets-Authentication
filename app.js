@@ -2,10 +2,13 @@ require("dotenv").config();
 const express = require("express");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
-const sha512 = require('js-sha512').sha512;         //Hashing, better than MD5
-// const encrypt = require("mongoose-encryption");  //Encryption
+const bcrypt = require("bcryptjs");
+// const sha512 = require('js-sha512').sha512;         //Hashing, better than MD5
+// const encrypt = require("mongoose-encryption");     //Encryption
 
 const app = express();
+
+const saltRounds = 10;
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -59,25 +62,67 @@ app.get("/login", function(req, res) {
 
 
 app.post("/register", function(req, res) {
-  const newUser = new User({
-    email: req.body.username,
-    password: sha512(req.body.password)
+
+if(req.body.password != ""){
+
+  bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+
+    if (!err) {
+      const newUser = new User({
+        email: req.body.username,
+        password: hash
+      })
+
+      if(newUser){
+
+      User.findOne({email: newUser.email}, function(err, foundUser){
+
+        if(!err){
+
+          if(foundUser){
+           console.log("Already a user with that email");
+
+           res.render("validationError",{
+             text: "Already an existing account with that email"
+           })
+
+          } else {
+
+            newUser.save(err => {
+
+              if (!err) {
+
+                console.log("Succesfully added new user");
+                res.render("secrets")
+
+              } else {
+
+                console.error(err);
+
+                res.render("validationError", {
+                  text: "Email AND password is needed"
+                });
+              }
+
+            });
+          }
+        }
+      })
+    }
+
+
+
+    } else {
+      console.error(err);   //Hashing error
+    }
+
   })
+} else {
+  res.render("validationError", {              //If password of ""
+    text: "Email AND password is needed"
+  });
+}
 
-  if (newUser) {
-    newUser.save(err => {
-      if (!err) {
-        console.log("Succesfully added new user");
-        res.render("secrets")
-      } else {
-        console.error(err);
-        res.render("validationError",{
-          text: "Email AND password is needed"
-        });
-      }
-    });
-
-  }
 
 });
 
@@ -86,14 +131,15 @@ app.post("/register", function(req, res) {
 
 
 app.post("/login", function(req, res) {
+
   const logUser = {
     email: req.body.username,
-    password: sha512(req.body.password)
+    password: req.body.password
   }
 
   if (logUser.email === "" || logUser.password === "") {
 
-    res.render("validationError",{
+    res.render("validationError", {
       text: "Email AND password is needed"
     })
 
@@ -104,25 +150,27 @@ app.post("/login", function(req, res) {
 
         if (!err) {
 
-          if (foundUser.password === logUser.password) {
+          bcrypt.compare(logUser.password, foundUser.password, function(err, result){
+            if (result) {
+              console.log("Succes, loged in");
+              res.render("secrets");
 
-            console.log("Succes, loged in");
-            res.render("secrets");
+            } else {
 
-          } else {
-
-            res.render("validationError",{
-              text: "Incorrect Password"
-            });
-          }
+              res.render("validationError", {
+                text: "Incorrect Password"
+              });
+            }
+          })
 
         } else {
-          console.error(err);
+          console.error(err);   //FindOne error
         }
 
+
       } else {
-        res.render("validationError",{
-          text: "No user name matches that name"
+        res.render("validationError", {
+          text: "No user name matches that name"       //If no foundUser
         });
       }
     })
