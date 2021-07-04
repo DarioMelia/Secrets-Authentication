@@ -61,8 +61,12 @@ max-width: 500px;
 width: 100vw;
 height: 100vh;
 text-align: center;
+}
 
-
+.error-message{
+  color: red;
+  font-size: .7em;
+  margin: 0 .3em;
 }
 
 .error h1{

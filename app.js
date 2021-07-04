@@ -12,6 +12,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const app = express();
 
 const saltRounds = 10;
+let regErrorMessage = undefined;
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -58,7 +59,10 @@ app.get("/", function(req, res) {
 
 
 app.get("/register", function(req, res) {
-  res.render("register");
+  res.render("register",{
+    errorMessage:regErrorMessage
+  });
+regErrorMessage=undefined;
 });
 
 
@@ -97,7 +101,9 @@ app.post("/register", function(req, res) {
 User.register(new User({username: req.body.username}), req.body.password, function(err, user){
   if(err){
     console.error(err);
+    regErrorMessage = err.message;
     res.redirect("/register");
+
   }else{
     passport.authenticate("local")(req, res, function(){
     res.redirect("/secrets");
@@ -110,7 +116,7 @@ User.register(new User({username: req.body.username}), req.body.password, functi
 
 app.post('/login',
 
-  passport.authenticate('local', { failureRedirect: '/login', successRedirect: "/secrets" })
+  passport.authenticate('local', { failureRedirect: '/login', successRedirect: "/secrets"})
 
 );
 
