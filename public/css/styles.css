@@ -8,6 +8,10 @@ body {
   gap: 1.5rem;
 }
 
+.flex--vertical{
+  flex-direction: column;
+}
+
 .flex--errorMsg{
   align-items: center;
   margin-top: .8rem;
@@ -54,9 +58,11 @@ max-width: 500px;
   font-size: 1.35rem;
 }
 
-.btn + .btn{
-  margin-left: .3em;
+.btn-discord{
+  background-color: #7289DA;
+  color: #fff;
 }
+
 .btn:hover{
   transform: scale(1.05);
   opacity: 0.85;
@@ -106,4 +112,12 @@ text-align: center;
   display:flex;
   align-items: center;
   justify-content: center;
+}
+
+
+@media (max-width: 990px) and (min-width:500px){
+  .flex--vertical{
+    justify-content: center;
+    flex-direction: row;
+  }
 }
