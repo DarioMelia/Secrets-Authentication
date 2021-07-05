@@ -64,7 +64,7 @@ text-align: center;
 }
 
 .error-message{
-  color: red;
+  color: #DC143C;
   font-size: .7em;
   margin: 0 .3em;
 }
