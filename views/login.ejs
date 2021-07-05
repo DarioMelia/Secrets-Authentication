@@ -19,7 +19,12 @@
               <label for="password">Password</label>
               <input type="password" class="form-control my-2" name="password">
             </div>
-            <button type="submit" class="btn btn-dark mt-1 btn--login">Login</button>
+          <div class="flex flex--errorMsg">
+              <button type="submit" class="btn btn-dark btn--login">Login</button>
+            <% if (errorMessage){ %>
+            <span class="error-message"><%= errorMessage %></span>
+            <% } %>
+          </div>
           </form>
 
         </div>

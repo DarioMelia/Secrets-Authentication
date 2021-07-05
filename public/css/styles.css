@@ -3,6 +3,16 @@ body {
   background-color: #E8ECEF;
 }
 
+.flex{
+  display: flex;
+  gap: 1.5rem;
+}
+
+.flex--errorMsg{
+  align-items: center;
+  margin-top: .8rem;
+}
+
 .centered {
     display: flex;
     align-items: center;
@@ -66,7 +76,7 @@ text-align: center;
 .error-message{
   color: #DC143C;
   font-size: .7em;
-  margin: 0 .3em;
+  margin: 0;
 }
 
 .error h1{

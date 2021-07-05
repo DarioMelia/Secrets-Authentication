@@ -12,15 +12,18 @@
             <div class="form-group">
               <label for="email">Email</label>
               <input type="email" class="form-control my-2" name="username">
-              <% if (errorMessage){ %>
-              <span class="error-message"><%= errorMessage %></span>
-              <% } %>
+
             </div>
             <div class="form-group">
               <label for="password">Password</label>
               <input type="password" class="form-control my-2" name="password">
             </div>
-            <button type="submit" class="btn btn-dark mt-2">Register</button>
+          <div class="flex flex--errorMsg">
+            <button type="submit" class="btn btn-dark">Register</button>
+            <% if (errorMessage){ %>
+            <span class="error-message"><%= errorMessage %></span>
+            <% } %>
+          </div>
           </form>
 
         </div>

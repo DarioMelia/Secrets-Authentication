@@ -12,7 +12,8 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const app = express();
 
 const saltRounds = 10;
-let regErrorMessage = undefined;
+let regErrorMessage;
+let logErrorMessage;
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -67,7 +68,10 @@ regErrorMessage=undefined;
 
 
 app.get("/login", function(req, res) {
-  res.render("login");
+  res.render("login",{
+  errorMessage: logErrorMessage
+});
+logErrorMessage = undefined;
 });
 
 app.get("/secrets", function(req, res){
@@ -114,12 +118,30 @@ User.register(new User({username: req.body.username}), req.body.password, functi
 
 
 
-app.post('/login',
+// app.post('/login',
+//
+//   passport.authenticate('local', { failureRedirect: '/login', successRedirect: "/secrets"})
+//
+// );
 
-  passport.authenticate('local', { failureRedirect: '/login', successRedirect: "/secrets"})
-
-);
-
+app.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) {
+      return next(err); // will generate a 500 error
+    }
+    // Generate a JSON response reflecting authentication status
+    if (! user) {
+      logErrorMessage = "Incorrect username or password";
+      return res.redirect("/login");
+    }
+    req.login(user, function(err){
+      if(err){
+        return next(err);
+      }
+      return res.redirect("/secrets");
+    });
+  })(req, res, next);
+});
 
 
 app.listen(3000, err => {
