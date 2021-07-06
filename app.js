@@ -10,7 +10,7 @@ const FacebookStrategy = require("passport-facebook").Strategy;
 const DiscordStrategy = require("passport-discord").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 // const bcrypt = require("bcryptjs");                  //Salting and Hashing
-// const sha512 = require('js-sha512').sha512;         //Hashing, better than MD5
+const sha512 = require('js-sha512').sha512;         //Hashing, better than MD5
 // const encrypt = require("mongoose-encryption");    //Encryption
 
 const app = express();
@@ -44,7 +44,7 @@ mongoose.connect(process.env.DB_URL, {
 const userSchema = new mongoose.Schema({
   googleId:String,
   facebookId: String,
-  discordID: String,
+  discordId: String,
   username:String
 });
 
@@ -76,12 +76,11 @@ passport.use(new GoogleStrategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/auth/google/secrets"
   },
-  function(accessToken, refreshToken, profile,email, cb) {
-
-    console.log(email.emails[0].value);
-    User.findOrCreate({ googleId: profile.id, username: email.emails[0].value}, function (err, user) {
+  function(accessToken, refreshToken,email, cb) {  //Once yo gott more scopes profile has les information, it is in email
+    User.findOrCreate({username: sha512(email.emails[0].value)}, function (err, user) {
       return cb(err, user);
     });
+
   }
 ));
 
@@ -91,29 +90,26 @@ passport.use(new FacebookStrategy({
     callbackURL: "http://localhost:3000/auth/facebook/secrets"
   },
   function(accessToken, refreshToken,profile, cb) {
-    // console.log(email);
-    console.log(profile);
+
     User.findOrCreate({ facebookId: profile.id }, function (err, user) {
       return cb(err, user);
     });
   }
 ));
 
-var discordScopes = ['identify', 'email'];
-var prompt = "consent";
+let discordScopes = ['identify', 'email'];
 
 passport.use(new DiscordStrategy({
     clientID: process.env.DISCORD_CLIENT_ID,
     clientSecret: process.env.DISCORD_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/auth/discord/secrets",
-    scope: discordScopes,
-    prompt: prompt
+    scope: discordScopes
 },
 function(accessToken, refreshToken, profile, done) {
-  console.log(profile)
-    User.findOrCreate({ discordId: profile.id }, function(err, user) {
-        return done(err, user);
-    });
+
+  User.findOrCreate({username: sha512(profile.email) }, function (err, user) {
+    return done(err, user);
+  });
 }));
 
 
@@ -154,12 +150,12 @@ passport.authenticate("facebook", { failureRedirect: "/login" }),
 });
 
 
-app.get('/auth/discord', passport.authenticate('discord',{scopes:discordScopes, prompt:prompt}));
-app.get('/auth/discord/secrets', passport.authenticate('discord', {
-    failureRedirect: '/'
-}), function(req, res) {
-    res.redirect('/secrets') // Successful auth
-});
+app.get('/auth/discord', passport.authenticate('discord', { scope: discordScopes}), function(req, res) {});
+app.get('/auth/discord/secrets',
+    passport.authenticate('discord', { failureRedirect: '/login' }),
+    function(req, res) {
+      res.redirect('/secrets') } // auth success
+);
 
 
 app.get("/secrets", function(req, res){
@@ -189,8 +185,8 @@ app.get("/logout", (req,res) => {
 
 
 app.post("/register", function(req, res) {
-
-User.register(new User({username: req.body.username}), req.body.password, function(err, user){
+req.body.username = sha512(req.body.username);
+User.register(new User({username: req.body.username }), req.body.password, function(err, user){
   if(err){
     console.error(err);
     regErrorMessage = err.message;
@@ -213,6 +209,7 @@ User.register(new User({username: req.body.username}), req.body.password, functi
 // );
 
 app.post('/login', function(req, res, next) {
+  req.body.username = sha512(req.body.username);
   passport.authenticate('local', function(err, user, info) {
     if (err) {
       return next(err); // will generate a 500 error

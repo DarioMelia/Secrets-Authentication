@@ -117,6 +117,7 @@ text-align: center;
 
 @media (max-width: 990px) and (min-width:500px){
   .flex--vertical{
+    
     justify-content: center;
     flex-direction: row;
   }
