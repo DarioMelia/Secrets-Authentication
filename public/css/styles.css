@@ -3,6 +3,8 @@ body {
   background-color: #E8ECEF;
   width: 100vw;
   max-height: 100vh;
+  margin:0;
+  overflow-x: hidden;
 }
 
 .flex{
@@ -65,22 +67,9 @@ max-width: 500px;
   max-height: 66vh;
 }
 
-.overflow-container::-webkit-scrollbar {
-    width: 8px;
+::-webkit-scrollbar {
+    display:none;
 }
-
-.overflow-container::-webkit-scrollbar-track {
-    display: none;
-}
-
-.overflow-container::-webkit-scrollbar-thumb {
-
-  background: rgb(255,255,255);
-  background: linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(74,74,74,0.4598214285714286) 19%, rgba(255,255,255,0) 56%);
-    /* -webkit-box-shadow: inset 5px 0 5px 2px rgba(0,0,0,0.5); */
-    border-radius: 5px ;
-}
-
 
 .display-3{
   font-size: clamp(4rem, 9vw, 5rem);
@@ -124,6 +113,7 @@ max-width: 500px;
   grid-template-columns: repeat(auto-fit,minmax(245px, 1fr));
   grid-auto-flow: dense;
   border-radius: .5rem;
+  isolation: isolate;
 }
 .secret{
   font-family: "Fredericka the Great", serif;
@@ -134,13 +124,16 @@ max-width: 500px;
   border-radius: .5rem;
   outline: 2px solid white;
   outline-offset: -0.5rem;
-  transition: transform 500ms ease;
+
 }
 
 .secret:hover{
-  transform: scale(1.06);
+  transform: scale(1.03) !important;
 }
 
+.secret-own:hover{
+
+}
 .secret--own{
   font-family: "Amatic SC", cursive;
   font-weight: bold;
@@ -169,18 +162,46 @@ grid-row: span 2;
   color: #fff;
   background-color: #000;
 }
+
+.secrets__header{
+position:fixed;
+transition: top 0.4s ease-in-out;
+font-size: clamp(3.5rem, 8vh, 5rem);
+padding: .2em;
+top:0;left:0;right:0;
+z-index: 1;
+}
+
 .secrets__title{
+  margin-top: min(2.5em, 8rem);
   font-size: clamp(2.5rem, 8.4vw, 6.3rem);
 }
 
 .secrets__btns{
+  padding: min(2vh, 2em);
   display: flex;
-  gap: 1rem;
+  gap: clamp(.2rem,6vw, 3rem);
   justify-content: center;
   position: fixed;
-  bottom: 1.7rem;
+  bottom: 0;
   right: 0;
   left: 0;
+  z-index: 0;
+}
+
+.secrets__btns::after,
+.secrets__header::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index: -1;
+  background: rgba(95, 95, 95, 1);
+  opacity: .98;
+}
+
+.secrets__btns .btn{
+  font-size: clamp(.7rem, 5vw, 1.2rem);
+  padding: .5em .8em;
 }
 .secrets__hr{
   margin-top:0;
@@ -261,4 +282,9 @@ text-align: center;
   .secret-text{
     font-size: clamp(1.4rem, 8.5vw, 2rem);
   }
+
+}
+
+@media(max-width:530px){
+
 }
