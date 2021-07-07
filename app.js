@@ -45,7 +45,13 @@ const userSchema = new mongoose.Schema({
   googleId:String,
   facebookId: String,
   discordId: String,
-  username:String
+  username:String,
+  secretsId:[String]
+});
+
+const secretSchema = new mongoose.Schema({
+  authId: String,
+  text: String
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -55,6 +61,7 @@ userSchema.plugin(findOrCreate);
 // userSchema.plugin(encrypt, {secret: process.env.SECRET, encryptedFields: ['password']});
 
 const User = new mongoose.model("User", userSchema);
+const Secret = new mongoose.model("Secret", secretSchema);
 
 passport.use(User.createStrategy());
 
@@ -161,7 +168,23 @@ app.get('/auth/discord/secrets',
 app.get("/secrets", function(req, res){
   res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stal   e=0, post-check=0, pre-check=0');
   if(req.isAuthenticated()){
-    res.render("secrets");
+  Secret.find((err,foundSecrets)=>{
+    
+    res.render("secrets",{
+      secrets: foundSecrets,
+      userId: req.user.id
+    })
+  })
+  }else {
+    res.redirect("/login");
+  }
+});
+
+
+app.get("/submit", function (req, res){
+  res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stal   e=0, post-check=0, pre-check=0');
+  if(req.isAuthenticated()){
+    res.render("submit");
   }else {
     res.redirect("/login");
   }
@@ -227,6 +250,36 @@ app.post('/login', function(req, res, next) {
     });
   })(req, res, next);
 });
+
+
+app.post("/submit", (req, res) => {
+  const secretText = req.body.secret;
+  let authId;
+  const newSecret = new Secret();
+
+  User.findById(req.user.id, (err, foundUser) => {
+    if(err){
+      console.log(err);
+    }
+    newSecret.text = secretText;
+    newSecret.authId = req.user.id;
+    newSecret.save((err, result)=>{
+      if(err){
+        console.log(err);
+      }else{
+        foundUser.secretsId.push(result._id);
+        foundUser.save((err)=>{
+          if(err){
+            console.log(err);
+          }else{
+            res.redirect("/secrets");
+          }
+        })
+      }
+    })
+    });
+  })
+
 
 
 app.listen(3000, err => {

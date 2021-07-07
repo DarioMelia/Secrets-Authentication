@@ -1,11 +1,33 @@
 
 body {
   background-color: #E8ECEF;
+  width: 100vw;
+  max-height: 100vh;
 }
 
 .flex{
   display: flex;
   gap: 1.5rem;
+}
+
+.huge-gap{
+  gap: 6rem;
+}
+.submit-flex{
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 100%;
+}
+.submit-flex > p{
+  width: 45%;
+}
+
+.submit-flex form{
+  width:45%;
+}
+.vertical{
+  flex-direction:column;
 }
 
 .flex--vertical{
@@ -23,6 +45,10 @@ body {
     justify-content: center;
     text-align: center;
 }
+
+.dynamic-mt{
+  margin-top: 5vh !important;
+}
 .jumbotron{
   min-height: 100vh;
 }
@@ -31,16 +57,38 @@ body {
 max-width: 500px;
 }
 
-.secret-text {
-  text-align: center;
-  font-size: 2rem;
-  color: #fff;
-  background-color: #000;
+.overflow-container{
+  margin-top: 1.5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: .5rem;
+  max-height: 66vh;
 }
+
+.overflow-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.overflow-container::-webkit-scrollbar-track {
+    display: none;
+}
+
+.overflow-container::-webkit-scrollbar-thumb {
+
+  background: rgb(255,255,255);
+  background: linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(74,74,74,0.4598214285714286) 19%, rgba(255,255,255,0) 56%);
+    /* -webkit-box-shadow: inset 5px 0 5px 2px rgba(0,0,0,0.5); */
+    border-radius: 5px ;
+}
+
 
 .display-3{
   font-size: clamp(4rem, 9vw, 5rem);
   font-weight: 400;
+}
+
+.submit__title{
+  font-size: clamp(5.6rem, 16vw, 7.5rem);
 }
 
 .form-title{
@@ -68,8 +116,76 @@ max-width: 500px;
   opacity: 0.85;
 }
 
+/* %%%%%%%%%%%%%%%%%%%%%%% SECRETS PAGE %%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
+.secrets-grid{
+  display: grid;
+  grid-gap: 1.225em;
+  grid-template-columns: repeat(auto-fit,minmax(245px, 1fr));
+  grid-auto-flow: dense;
+  border-radius: .5rem;
+}
+.secret{
+  font-family: "Fredericka the Great", serif;
+  font-size: 1.4rem;
+  padding: 3rem;
+  color: white;
+  background-color:black;
+  border-radius: .5rem;
+  outline: 2px solid white;
+  outline-offset: -0.5rem;
+  transition: transform 500ms ease;
+}
 
+.secret:hover{
+  transform: scale(1.06);
+}
+
+.secret--own{
+  font-family: "Amatic SC", cursive;
+  font-weight: bold;
+  font-size: 1.65em;
+  text-transform: uppercase;
+  color:black;
+  background-color: white;
+  outline-color: black;
+  border: 2px solid black;
+}
+
+.secret--big{
+grid-row: span 2;
+}
+
+.secret__content{
+  overflow-wrap: break-word;
+ word-wrap: break-word;
+ hyphens: auto;
+}
+
+.secret-text {
+  text-align: center;
+  padding: .3em .25em;
+  font-size: 2rem;
+  color: #fff;
+  background-color: #000;
+}
+.secrets__title{
+  font-size: clamp(2.5rem, 8.4vw, 6.3rem);
+}
+
+.secrets__btns{
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  position: fixed;
+  bottom: 1.7rem;
+  right: 0;
+  left: 0;
+}
+.secrets__hr{
+  margin-top:0;
+  height: 2px;
+}
 
 /* %%%%%%%%%%%%%% ERROR PAGE %%%%%%%%%%%%%%%%%% */
 
@@ -117,8 +233,32 @@ text-align: center;
 
 @media (max-width: 990px) and (min-width:500px){
   .flex--vertical{
-    
+
     justify-content: center;
     flex-direction: row;
+  }
+}
+
+@media (max-width:1000px){
+  .submit-flex{
+    justify-content: center;
+    align-items:center;
+    flex-direction:column;
+    width: 100%;
+  }
+  .submit-flex > p{
+    width: 90%;
+  }
+
+  .submit-flex form{
+    width:90%;
+  }
+
+  .huge-gap{
+    gap: 3em;
+  }
+
+  .secret-text{
+    font-size: clamp(1.4rem, 8.5vw, 2rem);
   }
 }
