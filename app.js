@@ -169,7 +169,7 @@ app.get("/secrets", function(req, res){
   res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stal   e=0, post-check=0, pre-check=0');
   if(req.isAuthenticated()){
   Secret.find((err,foundSecrets)=>{
-    
+
     res.render("secrets",{
       secrets: foundSecrets,
       userId: req.user.id
@@ -279,6 +279,42 @@ app.post("/submit", (req, res) => {
     })
     });
   })
+
+
+  app.post("/delete",(req,res)=>{
+    const secretId = req.body.secretId;
+    let userId;
+
+    Secret.findById(secretId, (err, foundSecret) =>{
+      if(err){console.log(err)}
+      else{
+        userId = foundSecret.authId;
+        
+        Secret.deleteOne({_id:secretId}, (err)=>{
+          if(err){console.log(err)}
+        })
+
+        User.findOne({_id:userId},(err, foundUser)=>{
+          if(err){console.log(err)}
+          else{
+            const secrets = foundUser.secretsId;
+            const index = secrets.findIndex(secret => secret === secretId);
+            secrets.splice(index, 1);
+            foundUser.save(err=>{
+              if(err){console.log(err)}
+              else{res.redirect("/secrets")}
+            })
+          }
+
+        })
+      }
+    });
+
+
+
+  })
+
+
 
 
 

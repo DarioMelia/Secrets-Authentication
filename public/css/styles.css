@@ -124,6 +124,7 @@ max-width: 500px;
   border-radius: .5rem;
   outline: 2px solid white;
   outline-offset: -0.5rem;
+  position: relative;
 
 }
 
@@ -131,9 +132,7 @@ max-width: 500px;
   transform: scale(1.03) !important;
 }
 
-.secret-own:hover{
 
-}
 .secret--own{
   font-family: "Amatic SC", cursive;
   font-weight: bold;
@@ -187,7 +186,33 @@ z-index: 1;
   right: 0;
   left: 0;
   z-index: 0;
+  transform-origin: bottom;
+  transform: scaleY(0);
+
+  transition: transform 0.4s ease-in-out, opacity .4s ease-in ;
+
 }
+
+/* .secrets__btn{
+  opacity: 0;
+  transition: opacity .2s ease-in .2s;
+} */
+.container__hover{
+  position: fixed;
+  right: 0;left: 0;bottom: 0;
+  background: transparent;
+  height: 80px;
+}
+.container__hover:hover  .secrets__btn{
+  opacity: 1;
+
+
+}
+.container__hover:hover .secrets__btns{
+  transform: scaleY(1);
+
+}
+
 
 .secrets__btns::after,
 .secrets__header::after{
@@ -197,11 +222,32 @@ z-index: 1;
   z-index: -1;
   background: rgba(95, 95, 95, 1);
   opacity: .98;
+
 }
 
 .secrets__btns .btn{
   font-size: clamp(.7rem, 5vw, 1.2rem);
   padding: .5em .8em;
+  opacity: 0;
+  transition: opacity 800ms 300ms, transform 250ms ease-in-out;
+}
+
+.form--del{
+
+}
+.btn--del{
+  padding:auto;
+  font-size: 2rem;
+  border: none;
+  background: none;
+  position: absolute;
+  top: 6px;right: 10px;
+  color: rgba(160, 160, 160, 0.5);
+  opacity: 0;
+  transition: opacity 400ms;
+}
+.secret--own:hover .btn--del{
+  opacity: 1;
 }
 .secrets__hr{
   margin-top:0;
@@ -286,5 +332,11 @@ text-align: center;
 }
 
 @media(max-width:530px){
+  .secrets__btns{
+    transform: scale(1);
+  }
 
+  .secrets__btns .btn{
+    opacity: 1;
+  }
 }
