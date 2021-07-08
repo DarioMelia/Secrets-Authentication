@@ -1,6 +1,7 @@
 
 body {
   background-color: #E8ECEF;
+
   width: 100vw;
   max-height: 100vh;
   margin:0;
@@ -192,11 +193,16 @@ z-index: 1;
   transition: transform 0.4s ease-in-out, opacity .4s ease-in ;
 
 }
+.secrets__bg{
+  background-image: url("https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+  background-color: #9ea5ab;
+  background-blend-mode: multiply;
+  background-size: cover;
+  position: fixed;
+  inset:0;
+  z-index: -2;
 
-/* .secrets__btn{
-  opacity: 0;
-  transition: opacity .2s ease-in .2s;
-} */
+}
 .container__hover{
   position: fixed;
   right: 0;left: 0;bottom: 0;
