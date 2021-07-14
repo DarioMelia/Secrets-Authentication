@@ -173,9 +173,9 @@ z-index: 1;
 }
 
 .secrets__title{
-  margin-top: min(2.5em, 8rem);
+  margin-top: min(2.3em, 8rem);
   font-family: "Knewave", cursive;
-  font-size: clamp(2.5rem, 8.4vw, 6.3rem);
+  font-size: clamp(3.2rem, 8.4vw, 6.3rem);
 }
 
 .secrets__btns{

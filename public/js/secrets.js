@@ -1,12 +1,12 @@
 let secrets = document.querySelectorAll(".secret");
 
 
-AOS.init({
-  easing: 'ease-in-sine'
+AOS.init({                         //Iniciamos la librería para las animaciones de scroll.
+  easing: 'ease-in-sine'           //acepta paramaetros
 });
 
 
-secrets.forEach((secret) => {
+secrets.forEach((secret) => {                                            //Asignamos una duración aleatorio a cada elemento del grid
   const randomTime = Math.floor(Math.random() * (550 - 150)) + 150;
   secret.setAttribute("data-aos-duration", randomTime.toString());
 
@@ -16,35 +16,35 @@ secrets.forEach((secret) => {
 window.addEventListener("load", function(event) {
 
   secrets.forEach((secret) => {
-    setAtrs(secret);
+    setAtrs(secret);                      //AOS recibe unos poarametros diferentes en función del tamaño de la pantalla
 
-    if (secret.textContent.length > 150) {
+    if (secret.textContent.length > 150) {    //Y a los secretos más extensos añadimos una clase para hacerlos span-2
       secret.classList.add("secret--big");
     }
 
   })
-  AOS.refresh();
+  AOS.refresh();                           //Para actualizar los nuevos valores
 });
 
 
 
 
 var prevScrollpos = window.pageYOffset;
-window.onscroll = function() {
+window.onscroll = function() {                            //Detectamos si se está scrolleando hacia arriba o abajo
   var currentScrollPos = window.pageYOffset;
 
-  if (prevScrollpos > currentScrollPos) {
-    document.querySelector(".secrets__header").setAttribute("style","top:0");
+  if (prevScrollpos > currentScrollPos) {                 //Si la posicion anteior es superior a la actual estamos subiendo
+    document.querySelector(".secrets__header").setAttribute("style","top:0");     //mostramos el header
 
-    if(vw()>530){
+    if(vw()>530){                                                                        //En pantallas grandes escondemos el footer al subir
       document.querySelector(".secrets__btns").setAttribute("style","bottom:-150px");
       document.querySelector(".secrets__btns .btn").setAttribute("style","opacity:0;")
     }
 
   } else {
-    document.querySelector(".secrets__header").setAttribute("style","top:-120px");
+    document.querySelector(".secrets__header").setAttribute("style","top:-120px");       //Escondemos el header
 
-    if(vw()>530){
+    if(vw()>530){    //En pantallas grandes mostramos el footer al bajar
       document.querySelector(".secrets__btns").setAttribute("style","bottom:0;");
       document.querySelector(".secrets__btns .btn").setAttribute("style","opacity:1;")
     }
@@ -56,19 +56,19 @@ window.onscroll = function() {
 
 
 
-window.onresize = function() {
+window.onresize = function() {               //Al terminar un resize recargamos la página
   clearTimeout(window.resizedFinished);
-  window.resizedFinished = setTimeout(function() {
+  window.resizedFinished = setTimeout(function() {  //Cuando terine el resize cambiamos los parametros de Aos
     console.log('Resized finished.');
     secrets.forEach((secret) => {
       setAtrs(secret);
     })
-    window.location.reload();
+    window.location.reload();                       //Recaregamos la página
 
   }, 250);
 };
 
-if(is_touch_enabled()){
+if(is_touch_enabled()){   //En las pantllas táctiles dondeno hay hover, mostramos el boton para borrar secretos constante
   document.querySelectorAll(".btn--del").forEach((del)=>{
     del.setAttribute("style", "opacity:1");
   })
@@ -80,18 +80,18 @@ if(is_touch_enabled()){
 
 
 
-function vw() {
+function vw() {   //Saca el width de la pantalla
   return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 }
 
 function setAtrs(secret) {
-  if (vw() < 530) {
+  if (vw() < 530) { //En pantallas pequeñas los elementos se animasn desde la derecha
 
     secret.setAttribute("data-aos", "fade-left");
     secret.setAttribute("data-aos-anchor-placement", "top-center");
     secret.setAttribute("data-aos-offset", "-100");
 
-  } else if (vw() > 530) {
+  } else if (vw() > 530) {  //En pantallas grandes desde abajo
     secret.setAttribute("data-aos", "fade-up");
     secret.setAttribute("data-aos-offset", "200");
 
@@ -99,7 +99,7 @@ function setAtrs(secret) {
   }
 };
 
-function is_touch_enabled() {
+function is_touch_enabled() {  //buscamos si el dispoisitivo es táctil
          return ( 'ontouchstart' in window ) ||
                 ( navigator.maxTouchPoints > 0 ) ||
                 ( navigator.msMaxTouchPoints > 0 );
