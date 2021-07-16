@@ -1,4 +1,5 @@
 let secrets = document.querySelectorAll(".secret");
+let overlay = document.querySelector(".secrets__overlay");
 
 
 AOS.init({                         //Iniciamos la librería para las animaciones de scroll.
@@ -10,6 +11,33 @@ secrets.forEach((secret) => {                                            //Asign
   const randomTime = Math.floor(Math.random() * (550 - 150)) + 150;
   secret.setAttribute("data-aos-duration", randomTime.toString());
 
+  secret.addEventListener("click", e => {
+    var content = e.currentTarget.querySelector(".secret__content").textContent;
+    let overlaySecret = document.querySelector(".secrets__overlay__secret");
+    let overlayContent = document.querySelector(".overlay__content");
+    overlayContent.textContent = content;
+    if(overlay.classList.contains("overlay--close")){
+      overlay.classList.remove("overlay--close");
+    }
+    overlay.classList.add("overlay--open");
+
+    if(e.currentTarget.classList.contains("secret--own")){
+      overlaySecret.classList.add("secret--own")
+    }
+
+  });
+
+})
+
+let overlayCloseBtn = document.querySelector(".overlay__btn-close");
+overlayCloseBtn.addEventListener("click", e =>{
+  overlayClose();
+});
+
+window.addEventListener("keydown", e =>{
+  if(e.key === "Escape"){
+  overlayClose();
+  }
 })
 
 
@@ -104,3 +132,10 @@ function is_touch_enabled() {  //buscamos si el dispoisitivo es táctil
                 ( navigator.maxTouchPoints > 0 ) ||
                 ( navigator.msMaxTouchPoints > 0 );
      }
+function overlayClose(){
+  overlay.classList.add("overlay--close");
+  overlay.classList.remove("overlay--open");
+  if(document.querySelector(".secrets__overlay__secret").classList.contains("secret--own")){
+    document.querySelector(".secrets__overlay__secret").classList.remove("secret--own");
+  }
+}

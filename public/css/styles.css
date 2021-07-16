@@ -1,9 +1,8 @@
 
 body {
   background-color: #E8ECEF;
-
   width: 100vw;
-  max-height: 100vh;
+  min-height: 100%;
   margin:0;
   overflow-x: hidden;
 }
@@ -134,15 +133,12 @@ max-width: 500px;
 }
 
 
-.secret--own{
-  font-family: "Amatic SC", cursive;
+div.secret--own{    /*PAra aumentar especicividad*/
   font-weight: bold;
-  font-size: 1.65em;
-  text-transform: uppercase;
   color:black;
   background-color: white;
   outline-color: black;
-  border: 2px solid black;
+  border: 2px solid black !importants;
 }
 
 .secret--big{
@@ -173,7 +169,7 @@ z-index: 1;
 }
 
 .secrets__title{
-  margin-top: min(2.3em, 8rem);
+  padding-top: min(2.3em, 8rem);
   font-family: "Knewave", cursive;
   font-size: clamp(3.2rem, 8.4vw, 6.3rem);
 }
@@ -238,6 +234,90 @@ z-index: 1;
   margin-top:0;
   height: 2px;
 }
+
+.secrets__overlay{
+  position: fixed;
+  z-index: 2;
+  background: rgba(0,0,0,0.75);
+
+  width: 100vw;
+  height: 100vh;
+  display: none;
+}
+
+
+
+.secrets__overlay__secret{
+  background: black;
+  font-family: "Fredericka the Great", serif;
+  font-size: clamp(1.4rem,5vw,2.1rem);
+  text-align: center;
+  position: relative;
+  padding: 1.55em;
+  color: white;
+  background-color:black;
+  border-radius: .4em;
+  outline: 2px solid white;
+  outline-offset: -0.38em;
+  max-width: 80%;
+
+}
+
+.secrets__overlay__secret.secret--own{
+  font-size: clamp(1.4rem,5vw,2.1rem);
+}
+
+.overlay--open{
+  display: flex;
+  justify-content: center;
+  align-items:center;
+}
+
+.overlay--close{
+  display:none;
+}
+
+.overlay__btn-close{
+ position: absolute;
+ top:28px;left:18px;
+ cursor: pointer;
+ transition: transform 200ms ease-in-out;
+}
+
+.overlay__btn-close:hover{
+  transform: scale(1.125);
+}
+
+
+.overlay__btn-close::after,
+.overlay__btn-close::before{
+  position: absolute;
+  content: "";
+  width: 20px;
+  height: 3px;
+  background-color: white;
+  border-radius: 3px;
+  transition: transform 250ms ease-in;
+}
+.secret--own .overlay__btn-close::after,
+.secret--own .overlay__btn-close::before{
+  background: rgba(50, 50, 50, 1);;
+}
+
+.overlay__btn-close::after{
+  transform: rotate(45deg);
+
+}
+.overlay__btn-close::before{
+  transform: rotate(-45deg);
+}
+
+.overlay__btn-close:hover.overlay__btn-close::after{
+  transform:rotate(225deg);
+}
+
+
+
 
 /* %%%%%%%%%%%%%% ERROR PAGE %%%%%%%%%%%%%%%%%% */
 
@@ -323,5 +403,9 @@ text-align: center;
 
   .secrets__btns .btn{
     opacity: 1;
+  }
+
+  .secrets__overlay__secret{
+    max-width: 92.5%;
   }
 }
