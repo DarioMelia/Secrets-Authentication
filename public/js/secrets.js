@@ -99,8 +99,33 @@ window.onresize = function() {               //Al terminar un resize recargamos 
 if(is_touch_enabled()){   //En las pantllas táctiles dondeno hay hover, mostramos el boton para borrar secretos constante
   document.querySelectorAll(".btn--del").forEach((del)=>{
     del.setAttribute("style", "opacity:1");
+    document.querySelector(".btn--my-secrets").style.opacity = 1;
   })
 }
+
+
+////////// DISPLAY MY SECRETS /////////////
+
+const mySecretsBtn = document.querySelector(".btn--my-secrets");
+let btnActive = false;
+
+mySecretsBtn.addEventListener("click", e =>{
+  secrets.forEach(secret => {
+    if(secret.classList.contains("secret--own") === false){
+      secret.classList.toggle("display-none");
+    }
+
+  })
+  if(btnActive === false){
+    mySecretsBtn.innerText = "All Secrets";
+    btnActive = true;
+  }else{
+    mySecretsBtn.innerText = "My Secrets";
+    btnActive = false;
+  }
+  AOS.refresh();
+})
+
 
 
 

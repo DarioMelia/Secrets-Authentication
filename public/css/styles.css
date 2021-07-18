@@ -71,9 +71,21 @@ max-width: 500px;
     display:none;
 }
 
-.display-3{
-  font-size: clamp(4rem, 9vw, 5rem);
+.home__key{
+  font-size: clamp(5.3rem, 15vw, 7rem);
+}
+
+.home__tittle{
+  font-size: clamp(4rem, 15vw, 7rem);
   font-weight: 400;
+}
+
+.home__subtitle{
+ font-weight: 400;
+}
+
+.display-none{
+  display: none;
 }
 
 .submit__title{
@@ -161,11 +173,27 @@ grid-row: span 2;
 
 .secrets__header{
 position:fixed;
+padding: .5rem;
 transition: top 0.4s ease-in-out;
 font-size: clamp(3.5rem, 8vh, 5rem);
-padding: .2em;
 top:0;left:0;right:0;
 z-index: 1;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.btn--my-secrets{
+  position: absolute;
+  right: 10%;
+  border:0;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out,
+  transform 250ms ease-in-out;
+}
+
+.secrets__header:hover .btn--my-secrets{
+  opacity:1;
 }
 
 .secrets__title{
