@@ -7,6 +7,27 @@ body {
   overflow-x: hidden;
 }
 
+
+/* %%%%%%%%%%%%%%%% UTILITY CLASSES %%%%%%%%%%%%%%%%%% */
+
+
+
+.bg-image{
+  background-image: url("https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+  background-color: #9ea5ab;
+  background-blend-mode: multiply;
+  background-size: cover;
+  position: fixed;
+  inset:0;
+  z-index: -2;
+}
+
+.error-message{
+  color: #DC143C;
+  font-size: .7em;
+  margin: 0;
+}
+
 .flex{
   display: flex;
   gap: 1.5rem;
@@ -14,22 +35,6 @@ body {
 
 .huge-gap{
   gap: 6rem;
-}
-.submit-flex{
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  width: 100%;
-}
-.submit-flex > p{
-  width: 45%;
-}
-
-.submit-flex form{
-  width:45%;
-}
-.vertical{
-  flex-direction:column;
 }
 
 .flex--vertical{
@@ -59,44 +64,24 @@ body {
 max-width: 500px;
 }
 
-.overflow-container{
-  margin-top: 1.5rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-  border-radius: .5rem;
-  max-height: 66vh;
-}
-
 ::-webkit-scrollbar {
     display:none;
 }
 
-.home__key{
-  font-size: clamp(5.3rem, 15vw, 7rem);
-}
-
-.home__tittle{
-  font-size: clamp(4rem, 15vw, 7rem);
-  font-weight: 400;
-}
-
-.home__subtitle{
- font-weight: 400;
-}
 
 .display-none{
   display: none;
 }
 
-.submit__title{
-  font-size: clamp(5.6rem, 16vw, 7.5rem);
-}
 
 .form-title{
   font-weight: 700;
   font-size: 2.5rem;
   margin-bottom: .4em;
 }
+
+
+/* %%%%%%%%%%%%% BUTTONS %%%%%%%%%%%%% */
 
 .btn{
   transition: transform 250ms ease-in,
@@ -115,6 +100,39 @@ max-width: 500px;
 .btn:hover{
   transform: scale(1.05);
   opacity: 0.85;
+}
+
+/* %%%%%%%%%%%%%%%% HOME %%%%%%%%%%%%%%%%%% */
+.home__key{
+  font-size: clamp(5.3rem, 15vw, 7rem);
+}
+
+.home__tittle{
+  font-size: clamp(4rem, 15vw, 7rem);
+  font-weight: 400;
+}
+
+.home__subtitle{
+ font-weight: 400;
+}
+/* %%%%%%%%%%%%%%%%% SUBMIT %%%%%%%%%%%%%%%%%%%%%%%%% */
+
+.submit-flex{
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 100%;
+}
+.submit-flex > p{
+  width: 45%;
+}
+
+.submit-flex form{
+  width:45%;
+}
+
+.submit__title{
+  font-size: clamp(5.6rem, 16vw, 7.5rem);
 }
 
 /* %%%%%%%%%%%%%%%%%%%%%%% SECRETS PAGE %%%%%%%%%%%%%%%%%%%%%%%%%%% */
@@ -163,13 +181,6 @@ grid-row: span 2;
  hyphens: auto;
 }
 
-.secret-text {
-  text-align: center;
-  padding: .3em .25em;
-  font-size: 2rem;
-  color: #fff;
-  background-color: #000;
-}
 
 .secrets__header{
 position:fixed;
@@ -213,18 +224,8 @@ justify-content: center;
   left: 0;
   z-index: 0;
   transition: opacity .4s ease-in, bottom 0.3s ease-in ;
-
 }
-.secrets__bg{
-  background-image: url("https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
-  background-color: #9ea5ab;
-  background-blend-mode: multiply;
-  background-size: cover;
-  position: fixed;
-  inset:0;
-  z-index: -2;
 
-}
 
 
 .secrets__btns::after,
@@ -262,6 +263,9 @@ justify-content: center;
   margin-top:0;
   height: 2px;
 }
+
+
+/* %%%%%%%%%%%%%%%%%%% SECRETS OVERLAY %%%%%%%%%%%%%%%%%%%%%%%% */
 
 .secrets__overlay{
   position: fixed;
@@ -347,57 +351,8 @@ justify-content: center;
 
 
 
-/* %%%%%%%%%%%%%% ERROR PAGE %%%%%%%%%%%%%%%%%% */
+/* %%%%%%%%%%%% MEDIA QUERYS %%%%%%%%%%%% */
 
-.error{
-width: 100vw;
-height: 100vh;
-text-align: center;
-}
-
-.error-message{
-  color: #DC143C;
-  font-size: .7em;
-  margin: 0;
-}
-
-.error h1{
-  font-size: 5rem;
-  color: #DC143C;
-  font-weight: 700;
-  letter-spacing: .075em;
-  margin-bottom: .5em;
-}
-
-.error h3{
-  opacity:0.88;
-  font-size: 3rem;
-  font-weight: 400;
-}
-
-.error__buttons{
-  display: flex;
-  gap: 2em;
-  justify-content: center;
-  margin-top: 3em;
-}
-
-
-
-.flex-center{
-  display:flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-@media (max-width: 990px) and (min-width:500px){
-  .flex--vertical{
-
-    justify-content: center;
-    flex-direction: row;
-  }
-}
 
 @media (max-width:1000px){
   .submit-flex{
